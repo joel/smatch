@@ -12,7 +12,10 @@ module Refining
     #
     # @author Joel Azemar
     #
-    # @param [Array] Dataset which we want compare close values
+    # @param [Array] dataset which we want compare close values
+    # @param [Integer] threshold distance which flag as a match
+    # @param [Symbol] comparison method of comparison, :strict to take only
+    # the same level of similarity
     def initialize(dataset: dataset, threshold: 2, comparison: :strict)
       @dataset    = dataset
       @threshold  = threshold
