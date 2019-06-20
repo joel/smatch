@@ -1,6 +1,7 @@
 require 'refining/version'
 require 'refining/match'
 require 'refining/row'
+require 'refining/result'
 
 require 'securerandom'
 
