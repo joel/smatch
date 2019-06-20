@@ -1,0 +1,46 @@
+inherit_gem:
+  rubocop-rails_config:
+    - config/rails.yml
+
+require:
+  - rubocop-performance
+  - rubocop-rspec
+
+Rails:
+  Enabled: true
+
+RSpec:
+  Enabled: true
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+Performance:
+  Enabled: true
+
+Bundler:
+  Enabled: true
+
+Gemspec:
+  Enabled: true
+
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: single_quotes
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 80
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*_spec.rb'
+    - '**/*.gemspec'
+
+Layout/IndentationConsistency:
+  EnforcedStyle: normal
+
+Style/BlockDelimiters:
+  Enabled: true

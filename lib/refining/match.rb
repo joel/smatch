@@ -1,3 +1,4 @@
 module Refining
-  VERSION = '0.1.0'
+  class Match
+  end
 end
