@@ -7,27 +7,46 @@ module Refining
 
     let(:dataset) do
       [
-        'Freedom, Inc.',
-        'Freedom Inc.',
+        [ SecureRandom.uuid, 'Freedom, Inc.' ],
+        [ SecureRandom.uuid, 'Freedom Inc.'  ],
+        [ SecureRandom.uuid, 'Freedom  Inc.'  ],
       ]
     end
-    let(:comparison) { :loose }
+
+    let(:id) { SecureRandom.uuid }
 
     context 'with close value' do
-      let(:value)     { 'Freedom Inc' }
-      let(:threshold) { 2 }
+      let(:value)      { 'Freedom Inc' }
+      let(:threshold)  { 2 }
+      let(:comparison) { :loose }
 
       it do
-        expect(match.similarity(value)).to eql(dataset)
+        expect(match.similarity(id: id, value: value).similarities.map(&:value))
+          .to eql(dataset.map { |entry| entry.last })
       end
     end
 
     context 'with less close value' do
       let(:value)     { 'Freedom' }
-      let(:threshold) { 6 }
+      let(:threshold) { 7 }
 
-      it do
-        expect(match.similarity(value)).to eql(dataset)
+      context 'with strict comparison method' do
+        let(:comparison) { :strict }
+
+        it do
+          expect(match.similarity(id: id, value: value).similarities
+            .map(&:value)).to eql([])
+        end
+      end
+
+      context 'with all the way down comparison method' do
+        let(:comparison) { :loose }
+
+        it do
+          expect(match.similarity(id: id, value: value)
+            .similarities.map(&:value))
+            .to eql(dataset.map { |entry| entry.last })
+        end
       end
     end
   end

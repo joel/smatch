@@ -28,10 +28,13 @@ module Refining
     #
     # @param [String] value to compare
     # @return [Array] Similar value found in the dataset
-    def similarity(value)
-      similarities = []
+    def similarity(id:, value:)
+      result = Result.new
+      result.reference = Row.new(id: id, value: value, distance: 0, rank: 1.00)
 
-      dataset.each do |entry|
+      dataset.each do |row|
+        row_id, entry = row
+
         next if entry.to_s.empty? ||
           (entry.length > max_length || entry.length < min_length)
 
@@ -43,6 +46,7 @@ module Refining
         # Damerau-Levenshtein is a modified version that also considers
         # transpositions as single edits
         distance = DamerauLevenshtein.distance(value, entry)
+        rank = (1 - (distance.to_f / (value.length + entry.length))).round(2)
 
         similar = false
         case comparison
@@ -53,11 +57,12 @@ module Refining
         end
 
         if similar
-          similarities << entry
+          result.similarities << Row.new(id: row_id, value: entry,
+            distance: distance, rank: rank)
         end
       end
 
-      similarities
+      result
     end
 
     private
