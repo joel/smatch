@@ -34,7 +34,7 @@ module Refining
     # @param [String] value distance which flag as a match
     # @param [Integer] distance of the reference string
     # @param [Float] distance of the reference string
-    def initialize(id: SecureRandom.uuid, value:, distance: 0, rank: 0.0)
+    def initialize(id: SecureRandom.uuid, value:, distance: 0, rank: 1.0)
       @id, @value, @distance, @rank = id, value, distance, rank
       @original_value = value
     end

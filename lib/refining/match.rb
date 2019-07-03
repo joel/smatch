@@ -30,7 +30,7 @@ module Refining
     # @return [Array] Similar value found in the dataset
     def similarity(id:, value:)
       result = Result.new
-      result.reference = Row.new(id: id, value: value, distance: 0, rank: 1.00)
+      result.reference = Row.new(id: id, value: value)
 
       dataset.each do |row|
         row_id, entry = row
