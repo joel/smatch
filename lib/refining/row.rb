@@ -8,7 +8,7 @@ module Refining
   class Row
     # Id of the line
     # @return [Uuid]
-    attr_accessor :id
+    attr_reader :id
 
     # Value to compared
     # @return [String]
@@ -16,15 +16,15 @@ module Refining
 
     # Original Value
     # @return [String]
-    attr_accessor :original_value
+    attr_reader :original_value
 
     # Distance
     # @return [Integer]
-    attr_accessor :distance
+    attr_reader :distance
 
     # Distance
     # @return [Float]
-    attr_accessor :rank
+    attr_reader :rank
 
     # Initializer
     #
