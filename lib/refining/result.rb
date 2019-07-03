@@ -43,8 +43,8 @@ module Refining
     # @return [Array]
     def to_a
       a = []
-      a << [ 'reference', reference.id, reference.value, reference.distance ]
-      similarities.each { |e| a << e.to_a }
+      a << [ 'reference' ] + reference.to_a
+      similarities.each { |similar| similar << [ 'duplicate' ] + similar.to_a }
       a
     end
 

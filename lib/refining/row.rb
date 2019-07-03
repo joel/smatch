@@ -37,7 +37,7 @@ module Refining
     # Return Object Value as an Array
     # @return [Array]
     def to_a
-      [ 'duplicate', id, value, distance, rank ]
+      [ id, value, distance, rank ]
     end
   end
 end

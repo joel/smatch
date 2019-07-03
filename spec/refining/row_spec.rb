@@ -10,7 +10,7 @@ module Refining
     let(:rank)     { 0.98 }
 
     describe '#to_a' do
-      it { expect(row.to_a).to eql([ 'duplicate', id, value, distance, rank ]) }
+      it { expect(row.to_a).to eql([ id, value, distance, rank ]) }
     end
   end
 end
