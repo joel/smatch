@@ -14,6 +14,10 @@ module Refining
     # @return [String]
     attr_accessor :value
 
+    # Original Value
+    # @return [String]
+    attr_accessor :original_value
+
     # Distance
     # @return [Integer]
     attr_accessor :distance
@@ -30,8 +34,9 @@ module Refining
     # @param [String] value distance which flag as a match
     # @param [Integer] distance of the reference string
     # @param [Float] distance of the reference string
-    def initialize(id:, value:, distance:, rank:)
+    def initialize(id: SecureRandom.uuid, value:, distance: 0, rank: 0.0)
       @id, @value, @distance, @rank = id, value, distance, rank
+      @original_value = value
     end
 
     # Return Object Value as an Array
