@@ -28,25 +28,29 @@ module Refining
     #
     # @param [String] value to compare
     # @return [Array] Similar value found in the dataset
-    def similarity(id:, value:)
+    def similarity(reference_row)
       result = Result.new
-      result.reference = Row.new(id: id, value: value)
+
+      result.reference = reference_row
+      reference_value  = reference_row.value
 
       dataset.each do |row|
-        row_id, entry = row
+        current_value = row.value
 
-        next if entry.to_s.empty? ||
-          (entry.length > max_length || entry.length < min_length)
+        next if current_value.to_s.empty? ||
+          (current_value.length > max_length ||
+            current_value.length < min_length)
 
-        gap = (entry.length * 100 / value.length)
+        gap = (current_value.length * 100 / reference_value.length)
         next if gap < min_interval || max_interval < gap
 
         # Levenshtein counts the number of edits (insertions, deletions, or
         # substitutions) needed to convert one string to the other.
         # Damerau-Levenshtein is a modified version that also considers
         # transpositions as single edits
-        distance = DamerauLevenshtein.distance(value, entry)
-        rank = (1 - (distance.to_f / (value.length + entry.length))).round(2)
+        distance = DamerauLevenshtein.distance(reference_value, current_value)
+        rank = (1 - (distance.to_f /
+          (reference_value.length + current_value.length))).round(2)
 
         similar = false
         case comparison
@@ -57,8 +61,9 @@ module Refining
         end
 
         if similar
-          result.similarities << Row.new(id: row_id, value: entry,
-            distance: distance, rank: rank)
+          row.distance = distance
+          row.rank = rank
+          result.similarities << row
         end
       end
 

@@ -20,11 +20,11 @@ module Refining
 
     # Distance
     # @return [Integer]
-    attr_reader :distance
+    attr_accessor :distance
 
     # Distance
     # @return [Float]
-    attr_reader :rank
+    attr_accessor :rank
 
     # Initializer
     #

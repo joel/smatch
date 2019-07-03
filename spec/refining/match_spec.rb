@@ -6,14 +6,10 @@ module Refining
     end
 
     let(:dataset) do
-      [
-        [ SecureRandom.uuid, 'Freedom, Inc.' ],
-        [ SecureRandom.uuid, 'Freedom Inc.'  ],
-        [ SecureRandom.uuid, 'Freedom  Inc.'  ],
-      ]
+      [ 'Freedom, Inc.', 'Freedom Inc.', 'Freedom  Inc.'].map do |value|
+        Row.new(value: value)
+      end
     end
-
-    let(:id) { SecureRandom.uuid }
 
     context 'with close value' do
       let(:value)      { 'Freedom Inc' }
@@ -21,8 +17,9 @@ module Refining
       let(:comparison) { :loose }
 
       it do
-        expect(match.similarity(id: id, value: value).similarities.map(&:value))
-          .to eql(dataset.map { |entry| entry.last })
+        expect(match.similarity(Row.new(value: value))
+          .similarities.map(&:value))
+          .to eql(dataset.map(&:value))
       end
     end
 
@@ -34,7 +31,7 @@ module Refining
         let(:comparison) { :strict }
 
         it do
-          expect(match.similarity(id: id, value: value).similarities
+          expect(match.similarity(Row.new(value: value)).similarities
             .map(&:value)).to eql([])
         end
       end
@@ -43,9 +40,9 @@ module Refining
         let(:comparison) { :loose }
 
         it do
-          expect(match.similarity(id: id, value: value)
+          expect(match.similarity(Row.new(value: value))
             .similarities.map(&:value))
-            .to eql(dataset.map { |entry| entry.last })
+            .to eql(dataset.map(&:value))
         end
       end
     end
