@@ -12,5 +12,9 @@ module Refining
     describe '#to_a' do
       it { expect(row.to_a).to eql([ id, value, distance, rank ]) }
     end
+
+    describe '#to_s' do
+      it { expect(row.to_s).to eql("#{id},#{value}\n") }
+    end
   end
 end

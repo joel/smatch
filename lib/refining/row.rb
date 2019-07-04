@@ -44,5 +44,11 @@ module Refining
     def to_a
       [ id, value, distance, rank ]
     end
+
+    # Return Object Value as an String
+    # @return [Array]
+    def to_s
+      "#{id},#{value}\n"
+    end
   end
 end
