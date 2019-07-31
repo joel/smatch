@@ -19,6 +19,8 @@ require 'pry'
 module Refining
   class Error < StandardError; end
 
+  # rubocop:disable Metrics/ClassLength
+
   # Control Inputs and Outputs of the program
   #
   # @author Joel Azemar
@@ -77,11 +79,9 @@ module Refining
       while (row = data.pop)
         count += 1
 
-        # rubocop:disable Style/IfUnlessModifier
         if count.zero? || (data.size % 10).zero?
-          puts("data.size: #{data.size}")
+          puts("data.size: #{data.size}") if @options[:verbose]
         end
-        # rubocop:enable Style/IfUnlessModifier
 
         result = matcher.similarity(row)
         next unless result.similarities?
@@ -140,6 +140,18 @@ module Refining
           @options[:file_path] = file_path
         end
 
+        opts.on(
+          '-v',
+          '--[no-]verbose', '[OPTIONAL] Run verbosely'
+        ) do |verbose|
+          @options[:verbose] = verbose
+        end
+
+        opts.on_tail('--version', 'Show version') do
+          puts VERSION
+          exit
+        end
+
         opts.on('-h', '--help', 'Prints this help') do
           help(opts)
           exit(0)
@@ -187,3 +199,4 @@ module Refining
     end
   end
 end
+# rubocop:enable Metrics/ClassLength
