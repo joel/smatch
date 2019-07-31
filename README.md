@@ -1,15 +1,58 @@
-# Refining
+# SMatch
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/refining`. To experiment with that code, run `bin/console` for an interactive prompt.
+Helps find similarity between strings, use Levenshtein 
 
-Delete this and the text above, and describe your gem
+### Build
+
+[![Travis CI](https://img.shields.io/travis/joel/smatch.svg?branch=master)](https://travis-ci.org/joel/smatch)
+
+### Maintainability
+
+![Maintenance](https://img.shields.io/maintenance/yes/2019.svg)
+[![Maintainability](https://api.codeclimate.com/v1/badges/51aa08d8908ab501d537/maintainability)](https://codeclimate.com/github/joel/smatch/maintainability)
+
+### Code Quality 
+
+[![Code Climate coverage](https://img.shields.io/codeclimate/coverage/joel/smatch.svg)](https://codeclimate.com/github/joel/smatch)
+[![Coverage Status](https://coveralls.io/repos/github/joel/smatch/badge.svg?branch=master)](https://coveralls.io/github/joel/smatch?branch=master)
+[![Code Climate issues](https://img.shields.io/codeclimate/issues/joel/smatch.svg)](https://codeclimate.com/github/joel/smatch/issues)
+[![Code Climate maintainability](https://img.shields.io/codeclimate/maintainability/joel/smatch.svg)](https://codeclimate.com/github/joel/smatch/progress/maintainability)
+[![Code Climate maintainability (percentage)](https://img.shields.io/codeclimate/maintainability-percentage/joel/smatch.svg)](https://codeclimate.com/github/joel/smatch/code)
+[![Code Climate technical debt](https://img.shields.io/codeclimate/tech-debt/joel/smatch.svg)](https://codeclimate.com/github/joel/smatch/trends/technical_debt)
+
+### Size 
+
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/joel/smatch.svg)
+![GitHub repo size in bytes](https://img.shields.io/github/repo-size/joel/smatch.svg)
+
+### Usage 
+
+[![Gem Version](https://badge.fury.io/rb/smatch.svg)](https://badge.fury.io/rb/smatch)
+![Gem](https://img.shields.io/gem/dv/smatch/0.1.0.svg)
+![Gem](https://img.shields.io/gem/v/smatch.svg)
+  
+### Activity
+
+![GitHub All Releases](https://img.shields.io/github/downloads/joel/smatch/total.svg)
+![GitHub last commit (master)](https://img.shields.io/github/last-commit/joel/smatch/master.svg)
+![GitHub Release Date](https://img.shields.io/github/release-date/joel/smatch.svg)
+
+### Documentation 
+  
+[![Inline docs](http://inch-ci.org/github/joel/smatch.svg?branch=master)](http://inch-ci.org/github/joel/smatch)
+[![License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](http://opensource.org/licenses/MIT)
+[![Version](https://img.shields.io/gem/v/vcr.svg?style=flat-square)](https://rubygems.org/gems/smatch)
+
+### Security 
+
+[![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/joel/smatch.svg)](https://libraries.io/github/joel/smatch)
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'refining'
+gem 'smatch'
 ```
 
 And then execute:
@@ -18,11 +61,38 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install refining
+    $ gem install smatch
 
 ## Usage
 
 Write usage instructions here
+
+```.shell
+bin/refine --file sample.csv -v
+Select an distance? 
+  1) equal
+  2) close
+  3) relatively close
+  4) not that close
+  5) far
+  6) far away
+  Choose 1-7 [2]: 
+(Press tab/right or left to reveal more choices)
+```
+
+```.shell
+x=============x========================================x=================x=================x========x========x
+|   type      |   id                                   |   title         |   distance      |   rank |
+x=============x========================================x=================x=================x========x========x
+|   reference |   c0f271cb-8696-43fd-8cc1-bd48e3e083c6 |   Freedom  Inc. |   Freedom  Inc. |   0    |   1.0  |
+|   duplicate |   9b25c2f5-3e4a-41f0-9107-4b0a4a5c812c |   Freedom, Inc. |   Freedom, Inc. |   1    |   0.96 |
+|   duplicate |   bf74cbce-4e32-4133-946e-33f733a15979 |   Freedom Inc.  |   Freedom Inc.  |   1    |   0.96 |
+x=============x========================================x=================x=================x========x========x
+Apply? yes
+data.size: 0
+Saving file...
+Bye
+```
 
 ## Development
 
