@@ -94,6 +94,22 @@ Saving file...
 Bye
 ```
 
+Provide `sample-1.csv`
+
+```
+x========================================x=================x==================x============x========x
+|   Id                                   |   New Value     |   Original Value |   Distance |   Rank |
+x========================================x=================x==================x============x========x
+|   9b25c2f5-3e4a-41f0-9107-4b0a4a5c812c |   Freedom  Inc. |   Freedom, Inc.  |   1        |   0.96 |
+|   bf74cbce-4e32-4133-946e-33f733a15979 |   Freedom  Inc. |   Freedom Inc.   |   1        |   0.96 |
+|   c0f271cb-8696-43fd-8cc1-bd48e3e083c6 |   Freedom  Inc. |   Freedom  Inc.  |   0        |   1.0  |
+|   85e17361-7a70-4ed2-8ecf-1a4c1a820211 |   Free          |   Free           |   0        |   1.0  |
+|   c22f4688-47ea-4179-84ff-644805692399 |   Free Dom!     |   Free Dom!      |   0        |   1.0  |
+|   e5c9e472-9b05-43d4-b177-ba89ec9927d2 |     Freedo m    |     Freedo m     |   0        |   1.0  |
+|   d9fc3b96-49d9-46f4-9bb3-852cdb42b905 |   Freetom       |   Freetom        |   0        |   1.0  |
+x========================================x=================x==================x============x========x
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
