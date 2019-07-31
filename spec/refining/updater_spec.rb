@@ -8,7 +8,7 @@ module Refining
       [
         [ SecureRandom.uuid, 'Freedom, Inc.' ],
         [ SecureRandom.uuid, 'Freedom Inc.'  ],
-        [ SecureRandom.uuid, 'Freedom  Inc.'  ],
+        [ SecureRandom.uuid, 'Freedom  Inc.' ],
       ]
     end
 
@@ -24,7 +24,8 @@ module Refining
     describe '#update!' do
       it 'update similair results' do
         expect { updater.update! }
-        .to change { result.similarities.map(&:value).uniq.size }.from(3).to(1)
+          .to change { result.similarities.map(&:value).uniq.size }
+          .from(3).to(1)
       end
 
       context 'with updated result' do

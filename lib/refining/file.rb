@@ -35,15 +35,21 @@ module Refining
     # @param [Array] dataset
     # @return [NilClass]
     def dump(dataset)
-      ::File.open(filename, 'wb') do |file|
-        dataset.each do |row|
-          file.write(row.to_s)
-        end
+      dataset.unshift(Row.headers)
+
+      csv_string = CSV.generate do |csv|
+        dataset.each { |row| csv << row.to_a }
       end
+
+      ::File.open(filename, 'wb') do |file|
+        file.write(csv_string)
+      end
+
       nil
     end
 
     private
+
     # The file path
     # @return [String]
     attr_reader :file_path
@@ -55,8 +61,8 @@ module Refining
     # @return [String] new file name
     def filename
       r = Regexp.new(/(?<file_name>.*)-(?<num>[0-9]{1,2})\.csv/)
-      if m = r.match(file_path)
-        "#{m[:file_name]}-#{distance_level}.csv"
+      if (m = r.match(file_path))
+        "#{m[:file_name]}-#{m[:num].to_i + 1}.csv"
       else
         "#{::File.basename(file_path, '.*')}-1.csv"
       end

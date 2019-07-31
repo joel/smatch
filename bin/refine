@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+require_relative '../lib/refining.rb'
+
+r = Refining::Main.new
+r.option_parser.parse!(ARGV)
+r.start

@@ -1,12 +1,15 @@
 module Refining
   RSpec.describe Match do
     subject('match') do
-      described_class.new(dataset: dataset, threshold: threshold,
-        comparison: comparison)
+      described_class.new(
+        dataset: dataset,
+        threshold: threshold,
+        comparison: comparison
+      )
     end
 
     let(:dataset) do
-      [ 'Freedom, Inc.', 'Freedom Inc.', 'Freedom  Inc.'].map do |value|
+      [ 'Freedom, Inc.', 'Freedom Inc.', 'Freedom  Inc.' ].map do |value|
         Row.new(value: value)
       end
     end

@@ -24,6 +24,9 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'damerau-levenshtein'
+  spec.add_dependency 'tty-prompt'
+  spec.add_dependency 'tty-progressbar'
+  spec.add_dependency 'terminal-table'
   
   spec.add_development_dependency 'bundler', '~> 2.0'
   spec.add_development_dependency 'rake', '~> 10.0'

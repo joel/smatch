@@ -20,7 +20,7 @@ module Refining
     #
     # @param [Array] dataset
     # @param [Result] result
-    def initialize(dataset: dataset, result: result)
+    def initialize(dataset:, result:)
       @dataset, @result = dataset, result
     end
 
@@ -32,8 +32,10 @@ module Refining
     def update!
       value = result.reference.value
       result.similarities.each do |row|
-        row.value = value
+        row.value   = value
+        row.updated = true
       end
+
       nil
     end
   end

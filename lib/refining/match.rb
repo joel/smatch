@@ -16,11 +16,16 @@ module Refining
     # @param [Integer] threshold distance which flag as a match
     # @param [Symbol] comparison method of comparison, :strict to take only
     # the same level of similarity
-    def initialize(dataset: dataset, threshold: 2, comparison: :strict)
+    def initialize(dataset:, threshold: 2, comparison: :strict)
       @dataset    = dataset
       @threshold  = threshold
       @comparison = comparison
     end
+
+    # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/CyclomaticComplexity
+    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/PerceivedComplexity
 
     # Find matches
     #
@@ -34,12 +39,12 @@ module Refining
       result.reference = reference_row
       reference_value  = reference_row.value
 
-      dataset.each do |row|
+      dataset_subset.each do |row|
         current_value = row.value
 
         next if current_value.to_s.empty? ||
-          (current_value.length > max_length ||
-            current_value.length < min_length)
+                (current_value.length > max_length ||
+                current_value.length < min_length)
 
         gap = (current_value.length * 100 / reference_value.length)
         next if gap < min_interval || max_interval < gap
@@ -52,25 +57,30 @@ module Refining
         rank = (1 - (distance.to_f /
           (reference_value.length + current_value.length))).round(2)
 
-        similar = false
-        case comparison
-        when :strict
-          similar = distance == threshold
-        else
-          similar = distance <= threshold
-        end
+        similar = case comparison
+                  when :strict
+                    distance == threshold
+                  else
+                    distance <= threshold
+                  end
 
-        if similar
-          row.distance = distance
-          row.rank = rank
-          result.similarities << row
-        end
+        next unless similar
+
+        row.distance = distance
+        row.rank = rank
+        result.similarities << row
       end
 
       result
     end
 
+    # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/CyclomaticComplexity
+    # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/PerceivedComplexity
+
     private
+
     # Comparison method
     # @return [Symbol]
     attr_reader :comparison
@@ -85,6 +95,12 @@ module Refining
 
     MAX_LENGTH = 500
     private_constant :MAX_LENGTH
+
+    # Return the none updated records
+    # @return [Array]
+    def dataset_subset
+      dataset.reject(&:updated?)
+    end
 
     # Maximum length for a string be suitable to compare
     # @return [Integer]

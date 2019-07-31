@@ -26,6 +26,10 @@ module Refining
     # @return [Float]
     attr_accessor :rank
 
+    # Distance
+    # @return [Float]
+    attr_accessor :updated
+
     # Initializer
     #
     # @author Joel Azemar
@@ -37,18 +41,34 @@ module Refining
     def initialize(id: SecureRandom.uuid, value:, distance: 0, rank: 1.0)
       @id, @value, @distance, @rank = id, value, distance, rank
       @original_value = value
+      @updated = false
+    end
+
+    # Predicate give the row state
+    # @return [Boolean]
+    def updated?
+      updated
+    end
+
+    # Headers
+    # @return [Array]
+    def self.headers
+      HEADERS
     end
 
     # Return Object Value as an Array
     # @return [Array]
     def to_a
-      [ id, value, distance, rank ]
+      [ id, value, original_value, distance, rank ]
     end
 
     # Return Object Value as an String
     # @return [Array]
     def to_s
-      "#{id},#{value}\n"
+      "#{to_a.join(',')}\n"
     end
+
+    HEADERS = [ 'Id', 'New Value', 'Original Value', 'Distance', 'Rank' ].freeze
+    private_constant :HEADERS
   end
 end

@@ -1,7 +1,3 @@
-inherit_gem:
-  rubocop-rails_config:
-    - config/rails.yml
-
 require:
   - rubocop-performance
   - rubocop-rspec
@@ -44,3 +40,15 @@ Layout/IndentationConsistency:
 
 Style/BlockDelimiters:
   Enabled: true
+
+Style/TrailingCommaInArrayLiteral:
+  Enabled: false
+
+Style/WordArray:
+  Enabled: false
+
+Layout/SpaceInsideArrayLiteralBrackets:
+  Enabled: false
+
+Style/ParallelAssignment:
+  Enabled: false
