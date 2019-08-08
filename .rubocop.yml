@@ -3,7 +3,7 @@ require:
   - rubocop-rspec
 
 Rails:
-  Enabled: true
+  Enabled: false
 
 RSpec:
   Enabled: true
