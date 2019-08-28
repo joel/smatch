@@ -1,5 +1,7 @@
 require_relative 'refining/version'
 require_relative 'refining/match'
+require_relative 'refining/matches/default'
+require_relative 'refining/matches/did_you_mean'
 require_relative 'refining/row'
 require_relative 'refining/result'
 require_relative 'refining/updater'
@@ -11,6 +13,7 @@ require 'tty-prompt'
 require 'terminal-table'
 require 'optparse'
 require 'optparse/date'
+require 'did_you_mean'
 
 require 'pry'
 
@@ -50,6 +53,8 @@ module Refining
         exit(0)
       end
 
+      @options[:algorithm_name] ||= 'default'
+
       prompt = TTY::Prompt.new
 
       choices = [
@@ -70,8 +75,11 @@ module Refining
       file = File.new(options[:file_path])
       dataset = file.load
       matcher = Match.new(dataset: dataset,
-                          threshold: distance_level,
-                          comparison: :strict)
+                          algorithm: options[:algorithm_name],
+                          options: {
+                            threshold: distance_level,
+                            comparison: :strict
+                          })
 
       data = dataset.dup
       count = 0
@@ -80,7 +88,7 @@ module Refining
         count += 1
 
         if count.zero? || (data.size % 10).zero?
-          puts("data.size: #{data.size}") if @options[:verbose]
+          puts("data.size: #{data.size}") if options[:verbose]
         end
 
         result = matcher.similarity(row)
@@ -141,6 +149,14 @@ module Refining
         end
 
         opts.on(
+          '-a ALGORITHM',
+          '--algorithm ALGORITHM', '[OPTIONAL] Algorithm name',
+          String
+        ) do |algorithm_name|
+          @options[:algorithm_name] = algorithm_name
+        end
+
+        opts.on(
           '-v',
           '--[no-]verbose', '[OPTIONAL] Run verbosely'
         ) do |verbose|
@@ -160,6 +176,7 @@ module Refining
         opts
       end
     end
+
     # rubocop:enable Metrics/MethodLength
 
     private
@@ -198,5 +215,5 @@ module Refining
       puts table
     end
   end
+  # rubocop:enable Metrics/ClassLength
 end
-# rubocop:enable Metrics/ClassLength

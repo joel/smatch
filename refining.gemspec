@@ -27,6 +27,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'tty-prompt'
   spec.add_dependency 'tty-progressbar'
   spec.add_dependency 'terminal-table'
+  spec.add_dependency 'did_you_mean'
   
   spec.add_development_dependency 'bundler', '~> 2.0'
   spec.add_development_dependency 'rake', '~> 10.0'

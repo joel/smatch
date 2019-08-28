@@ -3,8 +3,10 @@ module Refining
     subject('match') do
       described_class.new(
         dataset: dataset,
-        threshold: threshold,
-        comparison: comparison
+        options: {
+          threshold: threshold,
+          comparison: comparison
+        }
       )
     end
 
