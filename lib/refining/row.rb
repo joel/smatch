@@ -38,9 +38,17 @@ module Refining
     # @param [String] value distance which flag as a match
     # @param [Integer] distance of the reference string
     # @param [Float] distance of the reference string
-    def initialize(id: SecureRandom.uuid, value:, distance: 0, rank: 1.0)
+    def initialize(
+      id: SecureRandom.uuid,
+      original_value: nil,
+      value:,
+      distance: 'N/A',
+      rank: 'N/A'
+    )
+
       @id, @value, @distance, @rank = id, value, distance, rank
-      @original_value = value
+      @original_value = original_value
+      @original_value ||= value
       @updated = false
     end
 
@@ -59,7 +67,7 @@ module Refining
     # Return Object Value as an Array
     # @return [Array]
     def to_a
-      [ id, value, original_value, distance, rank ]
+      [ id, original_value, value, distance, rank ]
     end
 
     # Return Object Value as an String
@@ -68,7 +76,7 @@ module Refining
       "#{to_a.join(',')}\n"
     end
 
-    HEADERS = [ 'Id', 'New Value', 'Original Value', 'Distance', 'Rank' ].freeze
+    HEADERS = [ 'Id', 'Original Value', 'New Value', 'Distance', 'Rank' ].freeze
     private_constant :HEADERS
   end
 end

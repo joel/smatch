@@ -24,7 +24,7 @@ module Refining
       csv_source = CSV.parse(::File.open(file_path).read)
       csv_source.shift # remove headers
       csv_source.map do |row|
-        Row.new(id: row[0], value: row[1])
+        Row.new(id: row[0], original_value: row[1], value: row[2])
       end
     end
 

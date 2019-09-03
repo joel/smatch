@@ -93,6 +93,7 @@ module Refining
 
         result = matcher.similarity(row)
         next unless result.similarities?
+        next if result.similarities.size > 3
 
         print_data(result)
 
@@ -200,6 +201,8 @@ module Refining
       nil
     end
 
+    # rubocop:disable Metrics/MethodLength
+
     # Print out senntences to compare
     #
     # @author Joel Azemar
@@ -207,13 +210,21 @@ module Refining
     # @return [String]
     def print_data(result)
       table = Terminal::Table.new do |t|
-        t.headings = [ 'type', 'id', 'title', 'distance', 'rank' ]
+        t.headings = [
+          'Type',
+          'Id',
+          'Original Value',
+          'New Value',
+          'Distance',
+          'Rank'
+        ]
         t.rows = result.to_a
         t.style = { padding_left: 3, border_x: '=', border_i: 'x' }
       end
 
       puts table
     end
+    # rubocop:enable Metrics/MethodLength
   end
   # rubocop:enable Metrics/ClassLength
 end
