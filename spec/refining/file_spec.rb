@@ -4,9 +4,9 @@ module Refining
 
     let(:csv_source) do
       [
-        [ 'Id', 'Original Value',  'New Value'       ],
-        [ 123,  'Onno Giller',     'Onno Giller'     ],
-        [ 456,  'Onno Giller Inc', 'Onno Giller Inc' ],
+        [ 'Id', 'Original Value',  'New Value', 'Distance', 'Rank', 'Status' ],
+        [ 123,  'Onno Giller',     'Onno Giller', nil, nil, nil ],
+        [ 456,  'Onno Giller Inc', 'Onno Giller Inc', nil, nil, nil ],
       ]
     end
 

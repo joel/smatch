@@ -54,6 +54,7 @@ module Refining
       end
 
       @options[:algorithm_name] ||= 'default'
+      @options[:skip] ||= []
 
       prompt = TTY::Prompt.new
 
@@ -67,13 +68,14 @@ module Refining
         { name: 'far far away',     value: 6 },
       ]
       @distance_level = prompt.enum_select(
-        'Select an distance?',
+        'Select a distance?',
         choices,
         default: 2
       )
 
       file = File.new(options[:file_path])
       dataset = file.load
+      @headers = file.headers
       matcher = Match.new(dataset: dataset,
                           algorithm: options[:algorithm_name],
                           options: {
@@ -93,7 +95,12 @@ module Refining
 
         result = matcher.similarity(row)
         next unless result.similarities?
-        next if result.similarities.size > 3
+
+        if @options[:max]
+          next if result.similarities.size > @options[:max]
+        end
+
+        next if @options[:skip].include?(result.reference.value)
 
         print_data(result)
 
@@ -158,6 +165,24 @@ module Refining
         end
 
         opts.on(
+          '-s SKIP',
+          "--skip 'NoVo,Hewlett Foundation,Wallace Global Fund'",
+          '[OPTIONAL] Skip words',
+          Array
+        ) do |skip|
+          @options[:skip] = skip
+        end
+
+        opts.on(
+          '-m MAX',
+          '--max 10',
+          '[OPTIONAL] Max similarities',
+          Integer
+        ) do |max|
+          @options[:max] = max
+        end
+
+        opts.on(
           '-v',
           '--[no-]verbose', '[OPTIONAL] Run verbosely'
         ) do |verbose|
@@ -201,8 +226,6 @@ module Refining
       nil
     end
 
-    # rubocop:disable Metrics/MethodLength
-
     # Print out senntences to compare
     #
     # @author Joel Azemar
@@ -210,21 +233,13 @@ module Refining
     # @return [String]
     def print_data(result)
       table = Terminal::Table.new do |t|
-        t.headings = [
-          'Type',
-          'Id',
-          'Original Value',
-          'New Value',
-          'Distance',
-          'Rank'
-        ]
+        t.headings = [ 'Type' ] + @headers
         t.rows = result.to_a
         t.style = { padding_left: 3, border_x: '=', border_i: 'x' }
       end
 
       puts table
     end
-    # rubocop:enable Metrics/MethodLength
   end
   # rubocop:enable Metrics/ClassLength
 end

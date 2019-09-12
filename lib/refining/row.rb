@@ -30,6 +30,12 @@ module Refining
     # @return [Float]
     attr_accessor :updated
 
+    # Extra Values
+    # @return [Array]
+    attr_reader :extra_values
+
+    # rubocop:disable Metrics/ParameterLists
+
     # Initializer
     #
     # @author Joel Azemar
@@ -43,14 +49,17 @@ module Refining
       original_value: nil,
       value:,
       distance: 'N/A',
-      rank: 'N/A'
+      rank: 'N/A',
+      extra_values: []
     )
 
       @id, @value, @distance, @rank = id, value, distance, rank
       @original_value = original_value
       @original_value ||= value
       @updated = false
+      @extra_values = extra_values
     end
+    # rubocop:enable Metrics/ParameterLists
 
     # Predicate give the row state
     # @return [Boolean]
@@ -67,7 +76,8 @@ module Refining
     # Return Object Value as an Array
     # @return [Array]
     def to_a
-      [ id, original_value, value, distance, rank ]
+      [ id, original_value, value, distance, rank, (original_value != value) ] +
+        extra_values
     end
 
     # Return Object Value as an String
@@ -76,7 +86,14 @@ module Refining
       "#{to_a.join(',')}\n"
     end
 
-    HEADERS = [ 'Id', 'Original Value', 'New Value', 'Distance', 'Rank' ].freeze
+    HEADERS = [
+      'Id',
+      'Original Value',
+      'New Value',
+      'Distance',
+      'Rank',
+      'Status'
+    ].freeze
     private_constant :HEADERS
   end
 end

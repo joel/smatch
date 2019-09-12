@@ -22,9 +22,14 @@ module Refining
     # @return [Array] The dataset
     def load
       csv_source = CSV.parse(::File.open(file_path).read)
-      csv_source.shift # remove headers
+      @original_headers = csv_source.shift # remove headers
       csv_source.map do |row|
-        Row.new(id: row[0], original_value: row[1], value: row[2])
+        Row.new(
+          id: row[0],
+          original_value: row[1],
+          value: row[2],
+          extra_values: row[6..row.length]
+        )
       end
     end
 
@@ -35,7 +40,7 @@ module Refining
     # @param [Array] dataset
     # @return [NilClass]
     def dump(dataset)
-      dataset.unshift(Row.headers)
+      dataset.unshift(headers)
 
       csv_string = CSV.generate do |csv|
         dataset.each { |row| csv << row.to_a }
@@ -48,11 +53,21 @@ module Refining
       nil
     end
 
+    # The headers + Extra headers provided
+    # @return [Array]
+    def headers
+      Row.headers + original_headers[6..original_headers.length]
+    end
+
     private
 
     # The file path
     # @return [String]
     attr_reader :file_path
+
+    # The file path
+    # @return [String]
+    attr_reader :original_headers
 
     # Give the original filename with incremental number appended
     #
