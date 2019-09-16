@@ -15,6 +15,8 @@ module Refining
       @file_path = file_path
     end
 
+    # rubocop:disable Metrics/MethodLength
+
     # Load a file into the dataset
     #
     # @author Joel Azemar
@@ -28,10 +30,13 @@ module Refining
           id: row[0],
           original_value: row[1],
           value: row[2],
+          distance: row[3],
+          rank: row[4],
           extra_values: row[6..row.length]
         )
       end
     end
+    # rubocop:enable Metrics/MethodLength
 
     # Dump dataset into a file
     #

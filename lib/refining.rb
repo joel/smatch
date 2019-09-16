@@ -38,7 +38,7 @@ module Refining
       @options[:exclude] = []
       return unless ::File.exist?('.exclude_list')
 
-      CSV.parse(::File.open('.exlude_list').read).each do |row|
+      CSV.parse(::File.open('.exclude_list').read).each do |row|
         @options[:exclude] << row[0]
       end
     end
