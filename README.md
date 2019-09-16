@@ -80,6 +80,16 @@ Usage: example.rb [options]
 bin/refine --file file.csv
 ```
 
+If you provide a file `.exlude_list` with regex, those values will be ignored over the comparaison
+
+`cat .exclude_list`
+
+```.shell
+"SRT Anonymous \d{,2}"
+"Anonymous \d{,2}"
+"^[A-Z]{,4}$" ACRONYM OR TRYGRAM 
+```.shell
+
 ```.shell
 bin/refine --file sample.csv -v
 Select a distance?

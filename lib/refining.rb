@@ -35,6 +35,12 @@ module Refining
     def initialize
       @options = {}
       @distance_level = 2
+      @options[:exclude] = []
+      return unless ::File.exist?('.exclude_list')
+
+      CSV.parse(::File.open('.exlude_list').read).each do |row|
+        @options[:exclude] << row[0]
+      end
     end
 
     # rubocop:disable Metrics/AbcSize
@@ -101,6 +107,9 @@ module Refining
         end
 
         next if @options[:skip].include?(result.reference.value)
+        next if @options[:exclude].any? do |expression|
+          result.reference.value.match(Regexp.new(expression))
+        end
 
         print_data(result)
 
