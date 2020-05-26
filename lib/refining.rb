@@ -38,9 +38,21 @@ module Refining
       @options[:exclude] = []
       return unless ::File.exist?('.exclude_list')
 
-      CSV.parse(::File.open('.exclude_list').read).each do |row|
+      ignore_list = CSV.parse(::File.open('.exclude_list').read)
+      
+      ignore_list.each do |row|
         @options[:exclude] << row[0]
       end
+      
+      table = Terminal::Table.new do |t|
+        t.headings = [ 'IGNORED EXPRESSIONS' ]
+        t.rows = ignore_list
+        t.style = { padding_left: 3, border_x: '=', border_i: 'x' }
+      end
+
+      puts table
+      
+      puts("please change .exclude_list if needed")
     end
 
     # rubocop:disable Metrics/AbcSize
@@ -72,11 +84,15 @@ module Refining
         { name: 'far',              value: 4 },
         { name: 'far away',         value: 5 },
         { name: 'far far away',     value: 6 },
+        { name: '3x far away',      value: 7 },
+        { name: '4x far away',      value: 8 },
+        { name: '5x far away',      value: 9 },
       ]
       @distance_level = prompt.enum_select(
         'Select a distance?',
         choices,
-        default: 2
+        default: 2,
+        per_page: 10
       )
 
       file = File.new(options[:file_path])

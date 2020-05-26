@@ -10,3 +10,6 @@
 # rspec failure tracking
 .rspec_status
 .exclude_list
+
+PXXXX Campaigns - Grantee - Names - Discrepancies-*.csv
+PXXXX Campaigns - Grantee - Names - Discrepancies.csv
